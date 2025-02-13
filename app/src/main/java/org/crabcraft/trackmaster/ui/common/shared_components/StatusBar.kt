@@ -37,7 +37,7 @@ fun StatusBar(title: String) {
     Surface (
         modifier = Modifier.fillMaxWidth().height(72.dp),
         shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp),
-        color = Tan
+        color = MaterialTheme.colorScheme.primary
     ) {
         Row (
             modifier = Modifier.padding(12.dp),
