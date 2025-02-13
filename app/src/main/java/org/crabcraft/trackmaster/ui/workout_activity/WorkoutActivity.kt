@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.crabcraft.trackmaster.ui.common.shared_components.NavBar
 import org.crabcraft.trackmaster.ui.common.shared_components.StatusBar
 import org.crabcraft.trackmaster.ui.theme.*
 
@@ -18,10 +19,19 @@ class WorkoutActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TrackMasterTheme {
-                Column (
-                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+                Scaffold (
+                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+                    topBar = {
+                        StatusBar("Workouts")
+                    },
+                    bottomBar = {
+                        NavBar()
+                    }
                 ) {
-                    StatusBar("Workouts")
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(it)
+                    ) {
+                    }
                 }
             }
         }
