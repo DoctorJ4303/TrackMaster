@@ -1,20 +1,21 @@
 package org.crabcraft.trackmaster.ui.workout_activity
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import org.crabcraft.trackmaster.ui.common.shared_components.NavBar
 import org.crabcraft.trackmaster.ui.common.shared_components.StatusBar
 import org.crabcraft.trackmaster.ui.theme.*
+import org.crabcraft.trackmaster.util.Selected
 
-class WorkoutActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,10 +23,10 @@ class WorkoutActivity : ComponentActivity() {
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
                     topBar = {
-                        StatusBar(this)
+                        StatusBar()
                     },
                     bottomBar = {
-                        NavBar(this)
+                        NavBar()
                     }
                 ) {
                     Column(
@@ -35,5 +36,9 @@ class WorkoutActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    object TrackMasterApplication: Application() {
+        val selected = mutableStateOf(Selected.WORKOUT)
     }
 }

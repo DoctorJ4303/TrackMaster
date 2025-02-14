@@ -1,7 +1,6 @@
 package org.crabcraft.trackmaster.ui.common.shared_components
 
 import android.content.Intent
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,21 +21,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import dropShadow
 import org.crabcraft.trackmaster.R
-import org.crabcraft.trackmaster.ui.workout_activity.WorkoutActivity
-import org.crabcraft.trackmaster.ui.athlete_activity.AthleteActivity
+import org.crabcraft.trackmaster.ui.workout_activity.MainActivity
+import org.crabcraft.trackmaster.util.Selected
 
 @Composable
-fun NavBar (component: ComponentActivity) {
+fun NavBar () {
+    val selected = remember { MainActivity.TrackMasterApplication.selected }
 
     val shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
-    val workoutTint = when {
-        (component is WorkoutActivity) -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.onPrimary
-    }
-    val athleteTint = when {
-        (component is WorkoutActivity) -> MaterialTheme.colorScheme.onPrimary
-        else -> MaterialTheme.colorScheme.primary
-    }
 
     Surface(
         modifier = Modifier.fillMaxWidth().height(72.dp).dropShadow(shape, offsetY = (-4).dp),
@@ -48,17 +42,15 @@ fun NavBar (component: ComponentActivity) {
             Surface (
                 modifier = Modifier.size(56.dp),
                 shape = RoundedCornerShape(20.dp),
-                color = athleteTint,
+                color = if(selected.value==Selected.WORKOUT) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                 onClick = {
-                    if (component is AthleteActivity) {
-                        component.startActivity(Intent(component, WorkoutActivity::class.java))
-                    }
+                    MainActivity.TrackMasterApplication.selected.value = Selected.WORKOUT
                 }
             ) {
                 Image(
                     imageVector = ImageVector.vectorResource(R.drawable.workout),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(workoutTint),
+                    colorFilter = ColorFilter.tint(if(selected.value==Selected.WORKOUT) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary),
                     modifier = Modifier.size(36.dp).padding(6.dp)
                 )
             }
@@ -66,17 +58,15 @@ fun NavBar (component: ComponentActivity) {
             Surface (
                 modifier = Modifier.size(56.dp),
                 shape = RoundedCornerShape(20.dp),
-                color = workoutTint,
+                color = if(selected.value==Selected.ATHLETE) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                 onClick = {
-                    if (component is WorkoutActivity) {
-                        component.startActivity(Intent(component, AthleteActivity::class.java))
-                    }
+                    MainActivity.TrackMasterApplication.selected.value = Selected.ATHLETE
                 }
             ) {
                 Image(
                     imageVector = ImageVector.vectorResource(R.drawable.athlete),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(athleteTint),
+                    colorFilter = ColorFilter.tint(if(selected.value==Selected.ATHLETE) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary),
                     modifier = Modifier.size(36.dp).padding(6.dp)
                 )
             }

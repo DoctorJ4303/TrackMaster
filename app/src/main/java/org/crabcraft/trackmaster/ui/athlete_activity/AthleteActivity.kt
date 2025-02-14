@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import org.crabcraft.trackmaster.ui.common.shared_components.NavBar
 import org.crabcraft.trackmaster.ui.common.shared_components.StatusBar
 import org.crabcraft.trackmaster.ui.theme.TrackMasterTheme
+import org.crabcraft.trackmaster.util.Selected
 
 class AthleteActivity : ComponentActivity() {
 
@@ -23,10 +24,10 @@ class AthleteActivity : ComponentActivity() {
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
                     topBar = {
-                        StatusBar(this)
+                        StatusBar()
                     },
                     bottomBar = {
-                        NavBar(this)
+                        NavBar()
                     }
                 ) {
                     Column(
@@ -36,6 +37,5 @@ class AthleteActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 }

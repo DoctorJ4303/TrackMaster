@@ -11,6 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,23 +22,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dropShadow
 import org.crabcraft.trackmaster.R
-import org.crabcraft.trackmaster.ui.workout_activity.WorkoutActivity
+import org.crabcraft.trackmaster.ui.workout_activity.MainActivity
 import org.crabcraft.trackmaster.ui.athlete_activity.AthleteActivity
-
+import org.crabcraft.trackmaster.util.Selected
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatusBar (component: ComponentActivity) {
-    val icon: Int = when {
-        (component is WorkoutActivity) -> R.drawable.workout
-        (component is AthleteActivity) -> R.drawable.athlete
-        else -> -1
-    }
-    val title: String = when {
-        (component is WorkoutActivity) -> "Workouts"
-        (component is AthleteActivity) -> "Athletes"
-        else -> "How are you here..."
-    }
+fun StatusBar () {
+    val selected = remember { MainActivity.TrackMasterApplication.selected }
+
     val shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
     Surface(
         modifier = Modifier.fillMaxWidth().height(72.dp).dropShadow(shape),
@@ -46,13 +41,13 @@ fun StatusBar (component: ComponentActivity) {
             modifier = Modifier.fillMaxWidth().padding(12.dp),
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(icon),
+                imageVector = ImageVector.vectorResource(if(selected.value==Selected.WORKOUT) R.drawable.workout else R.drawable.athlete),
                 contentDescription = null,
                 modifier = Modifier.size(48.dp)
             )
             Spacer(Modifier.weight(1f))
             Text(
-                title,
+                if(selected.value==Selected.WORKOUT) "Workout" else "Athlete",
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxHeight()
