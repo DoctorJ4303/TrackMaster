@@ -9,13 +9,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dropShadow
+import org.crabcraft.trackmaster.util.CurrentUIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
 @Composable
-fun NavigationBar (viewModel: MainViewModel) {
+fun NavigationBar (uiState: CurrentUIState) {
 
     val shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
 
@@ -28,11 +31,10 @@ fun NavigationBar (viewModel: MainViewModel) {
             modifier = Modifier.fillMaxWidth().padding(8.dp),
         ) {
             Spacer(Modifier.weight(1f))
-            viewModel.getWorkoutState()()
+            uiState.workoutIcon()
             Spacer(Modifier.weight(4f))
-            viewModel.getAthleteState()()
+            uiState.athleteIcon()
             Spacer(Modifier.weight(1f))
         }
-
     }
 }

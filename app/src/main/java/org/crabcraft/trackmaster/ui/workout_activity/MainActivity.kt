@@ -3,13 +3,19 @@ package org.crabcraft.trackmaster.ui.workout_activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import org.crabcraft.trackmaster.ui.common.shared_components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.shared_components.StatusBar
-import org.crabcraft.trackmaster.ui.theme.*
+import org.crabcraft.trackmaster.ui.theme.TrackMasterTheme
+import org.crabcraft.trackmaster.util.CurrentUIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -18,13 +24,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrackMasterTheme {
                 val viewModel = MainViewModel()
+                val uiState: CurrentUIState by viewModel.uiState.observeAsState(CurrentUIState.Workout())
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
                     topBar = {
-                        StatusBar(viewModel)
+                        StatusBar(uiState)
                     },
                     bottomBar = {
-                        NavigationBar(viewModel)
+                        NavigationBar(uiState)
                     }
                 ) {
                     Column(
