@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import org.crabcraft.trackmaster.ui.common.shared_components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.shared_components.StatusBar
 import org.crabcraft.trackmaster.ui.theme.TrackMasterTheme
-import org.crabcraft.trackmaster.util.CurrentUIState
+import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -24,15 +24,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrackMasterTheme {
                 val viewModel = MainViewModel()
-                val uiState: CurrentUIState by viewModel.uiState.observeAsState(CurrentUIState.Workout())
+                val uiState: UIState by viewModel.uiState.observeAsState(UIState.Workout())
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-                    topBar = {
-                        StatusBar(uiState)
-                    },
-                    bottomBar = {
-                        NavigationBar(uiState)
-                    }
+                    topBar = { StatusBar(uiState) },
+                    bottomBar = { NavigationBar(uiState) }
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize().padding(it)

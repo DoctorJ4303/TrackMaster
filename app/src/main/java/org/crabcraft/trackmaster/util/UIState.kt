@@ -15,14 +15,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.crabcraft.trackmaster.R
 
-sealed class CurrentUIState () {
+sealed class UIState () {
     data class Workout(
         override val title: String = "Workouts",
         override val icon: Int = R.drawable.workout,
         val onClick: () -> Unit = {},
         override var workoutIcon: @Composable () -> Unit = {},
         override var athleteIcon: @Composable () -> Unit = {},
-    ): CurrentUIState() {
+    ): UIState() {
         init {
             athleteIcon = {
                 Icon(
@@ -47,7 +47,7 @@ sealed class CurrentUIState () {
         val onClick: () -> Unit = {},
         override var workoutIcon: @Composable () -> Unit = {},
         override var athleteIcon: @Composable () -> Unit = {},
-    ): CurrentUIState() {
+    ): UIState() {
         init {
             athleteIcon = {
                 Icon(

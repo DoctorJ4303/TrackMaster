@@ -14,8 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -25,11 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dropShadow
 import org.crabcraft.trackmaster.R
-import org.crabcraft.trackmaster.util.CurrentUIState
-import org.crabcraft.trackmaster.viewmodel.MainViewModel
+import org.crabcraft.trackmaster.util.UIState
 
 @Composable
-fun StatusBar (uiState: CurrentUIState) {
+fun StatusBar (uiState: UIState) {
     val shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
     Surface(
         modifier = Modifier.fillMaxWidth().height(72.dp).dropShadow(shape),

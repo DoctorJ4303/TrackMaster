@@ -5,29 +5,29 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.crabcraft.trackmaster.util.CurrentUIState
+import org.crabcraft.trackmaster.util.UIState
 
 class MainViewModel :ViewModel() {
-    private val _uiState = MutableLiveData<CurrentUIState>(CurrentUIState.Workout())
-    val uiState: LiveData<CurrentUIState> = _uiState
+    private val _uiState = MutableLiveData<UIState>(UIState.Workout())
+    val uiState: LiveData<UIState> = _uiState
 
     init {
-        setUIState(CurrentUIState.Workout())
+        setUIState(UIState.Workout())
     }
 
-    private fun setUIState(state: CurrentUIState) {
+    private fun setUIState(state: UIState) {
         viewModelScope.launch {
             when (state) {
-                is CurrentUIState.Workout ->
+                is UIState.Workout ->
                     _uiState.value = state.copy(onClick = {
                         println("ITS RUNNING")
-                        setUIState(CurrentUIState.Athlete())
+                        setUIState(UIState.Athlete())
                     })
 
-                is CurrentUIState.Athlete ->
+                is UIState.Athlete ->
                     _uiState.value = state.copy(onClick = {
                         println("ITS RUNNING")
-                        setUIState(CurrentUIState.Workout())
+                        setUIState(UIState.Workout())
                     })
             }
         }
