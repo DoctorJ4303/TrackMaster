@@ -28,7 +28,7 @@ sealed class ListItem() {
     abstract var expanded: Boolean
     abstract val onClick: () -> Unit
 
-    data class Workouts(
+    data class Workout(
         override val title: String,
         override var expanded: Boolean = false,
         override val onClick: () -> Unit,
@@ -80,7 +80,7 @@ fun ListItem(expanded: Boolean = false, name: String, onClick: () -> Unit = {}) 
                     .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
                     .height(48.dp)
-                    .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.75f))
+                    .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f))
                     .clickable(onClick = onClick)
             ) {
                 Row {

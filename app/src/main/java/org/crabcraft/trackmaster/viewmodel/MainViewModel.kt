@@ -1,6 +1,5 @@
 package org.crabcraft.trackmaster.viewmodel
 
-import androidx.compose.animation.core.copy
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,7 @@ import kotlinx.coroutines.launch
 import org.crabcraft.trackmaster.ui.common.components.ListItem
 import org.crabcraft.trackmaster.util.UIState
 
-class MainViewModel :ViewModel() {
+class MainViewModel: ViewModel() {
     private val _uiState = MutableLiveData<UIState>(UIState.Workout())
     private val _listItems = MutableLiveData<MutableList<ListItem>>(mutableListOf())
 
@@ -65,18 +64,15 @@ class MainViewModel :ViewModel() {
 
     private fun setListItemSelected(index: Int) {
         viewModelScope.launch {
-            println("ITS RUNNING")
-            val currentList = _listItems.value?.toMutableList() ?: return@launch
-            val newList = currentList.mapIndexed { i, item ->
-                if (i == index) {
-                    // Toggle the clicked item's expanded state
-                    item.copy(expanded = !item.expanded)
-                } else {
-                    // Collapse all other items
-                    item.copy(expanded = false)
-                }
+            val currentList = _listItems.value!!.toMutableList()
+
+            List(currentList.size) { i ->
+                if (_uiState.value is UIState.Workout)
+                    currentList[i] = (currentList[i] as ListItem.Workouts).copy(expanded = (i == index))
+                else if (_uiState.value is UIState.Athlete)
+                    currentList[i] = (currentList[i] as ListItem.Athlete).copy(expanded = (i == index))
             }
-            _listItems.value = newList.toMutableList()
+            _listItems.value = currentList
         }
     }
 }
