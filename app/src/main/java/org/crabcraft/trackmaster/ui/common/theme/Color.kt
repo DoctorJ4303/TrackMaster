@@ -1,4 +1,4 @@
-package org.crabcraft.trackmaster.ui.theme
+package org.crabcraft.trackmaster.ui.common.theme
 
 import androidx.compose.ui.graphics.Color
 

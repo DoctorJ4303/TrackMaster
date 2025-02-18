@@ -1,8 +1,5 @@
-package org.crabcraft.trackmaster.ui
+package org.crabcraft.trackmaster.ui.common.shapes
 
-import android.graphics.drawable.shapes.OvalShape
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline

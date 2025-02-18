@@ -1,4 +1,4 @@
-package org.crabcraft.trackmaster.ui.theme
+package org.crabcraft.trackmaster.ui.common.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -15,6 +15,13 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
         lineHeight = 30.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = FontFamily(Font(R.font.inter_bold)),
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     )
     /* Other default text styles to override
