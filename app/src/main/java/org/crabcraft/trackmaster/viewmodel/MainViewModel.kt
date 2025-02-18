@@ -29,13 +29,13 @@ class MainViewModel: ViewModel() {
                     })
 
                     _listItems.value = mutableListOf(
-                        ListItem.Workouts("Favorites", onClick = {
+                        ListItem.Workout("Favorites", onClick = {
                             setListItemSelected(0)
                         }),
-                        ListItem.Workouts("Recents", onClick = {
+                        ListItem.Workout("Recents", onClick = {
                             setListItemSelected(1)
                         }),
-                        ListItem.Workouts("All", onClick = {
+                        ListItem.Workout("All", onClick = {
                             setListItemSelected(2)
                         })
                     )
@@ -68,7 +68,7 @@ class MainViewModel: ViewModel() {
 
             List(currentList.size) { i ->
                 if (_uiState.value is UIState.Workout)
-                    currentList[i] = (currentList[i] as ListItem.Workouts).copy(expanded = (i == index))
+                    currentList[i] = (currentList[i] as ListItem.Workout).copy(expanded = (i == index))
                 else if (_uiState.value is UIState.Athlete)
                     currentList[i] = (currentList[i] as ListItem.Athlete).copy(expanded = (i == index))
             }
