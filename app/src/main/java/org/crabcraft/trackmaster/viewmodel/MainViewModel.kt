@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.crabcraft.trackmaster.ui.common.components.ListItem
+import org.crabcraft.trackmaster.util.ListItem
 import org.crabcraft.trackmaster.util.UIState
 
 class MainViewModel: ViewModel() {
@@ -24,7 +24,6 @@ class MainViewModel: ViewModel() {
             when (state) {
                 is UIState.Workout -> {
                     _uiState.value = state.copy(onClick = {
-                        println("ITS RUNNING")
                         setUIState(UIState.Athlete())
                     })
 
@@ -67,10 +66,16 @@ class MainViewModel: ViewModel() {
             val currentList = _listItems.value!!.toMutableList()
 
             List(currentList.size) { i ->
-                if (_uiState.value is UIState.Workout)
-                    currentList[i] = (currentList[i] as ListItem.Workout).copy(expanded = (i == index))
-                else if (_uiState.value is UIState.Athlete)
-                    currentList[i] = (currentList[i] as ListItem.Athlete).copy(expanded = (i == index))
+                val item: ListItem
+                if (_uiState.value is UIState.Workout) {
+                    item = (currentList[i] as ListItem.Workout)
+                    currentList[i] = item.copy(expanded = i == index && !item.expanded)
+
+                }
+                else if (_uiState.value is UIState.Athlete) {
+                    item = (currentList[i] as ListItem.Athlete)
+                    currentList[i] = item.copy(expanded = i == index && !item.expanded)
+                }
             }
             _listItems.value = currentList
         }

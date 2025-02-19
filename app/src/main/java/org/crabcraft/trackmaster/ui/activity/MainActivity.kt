@@ -20,6 +20,7 @@ import org.crabcraft.trackmaster.ui.common.components.ListItem
 import org.crabcraft.trackmaster.ui.common.components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.components.StatusBar
 import org.crabcraft.trackmaster.ui.common.theme.TrackMasterTheme
+import org.crabcraft.trackmaster.util.ListItem
 import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 

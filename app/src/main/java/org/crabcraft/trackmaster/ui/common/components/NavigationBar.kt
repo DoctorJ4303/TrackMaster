@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,7 @@ fun NavigationBar (uiState: UIState) {
         ) {
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.plus),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
                 contentDescription = null,
                 modifier = Modifier.align(Alignment.Center)
             )
