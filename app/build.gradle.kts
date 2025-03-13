@@ -1,8 +1,11 @@
+import com.android.build.gradle.internal.utils.KSP_PLUGIN_ID
 import org.jetbrains.kotlin.gradle.utils.IMPLEMENTATION
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt") // For kapt
+    id("com.google.devtools.ksp") // For ksp
 }
 
 android {
@@ -42,7 +45,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -52,29 +55,44 @@ android {
 }
 
 dependencies {
-    implementation(libs.coil.compose)
-    implementation(libs.coil.svg)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler) // Use ksp for the Room compiler
+    implementation(libs.androidx.room.ktx)
+
+    // AndroidX
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.constraintlayout.compose)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.runtime.livedata)
-    annotationProcessor(libs.androidx.room.compiler)
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
+
+    //GSon
+    implementation(libs.gson)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debugging
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

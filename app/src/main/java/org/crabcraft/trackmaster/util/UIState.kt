@@ -58,4 +58,9 @@ sealed class UIState {
     open val icon: Int = 0
     open var workoutIcon: @Composable () -> Unit = {}
     open var athleteIcon: @Composable () -> Unit = {}
+
+    enum class State {
+        Workout,
+        Athlete
+    }
 }

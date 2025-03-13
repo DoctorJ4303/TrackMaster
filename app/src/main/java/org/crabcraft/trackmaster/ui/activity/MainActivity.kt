@@ -12,28 +12,37 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.crabcraft.trackmaster.ui.common.components.ListItem
+import org.crabcraft.trackmaster.TrackMasterApplication
+import org.crabcraft.trackmaster.model.Athlete
 import org.crabcraft.trackmaster.ui.common.components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.components.StatusBar
 import org.crabcraft.trackmaster.ui.common.theme.TrackMasterTheme
-import org.crabcraft.trackmaster.util.ListItem
+import org.crabcraft.trackmaster.util.ExpandableItem
 import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.DurationUnit
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             TrackMasterTheme {
 
                 val viewModel = MainViewModel()
 
+                val application = application as TrackMasterApplication
+                val athleteViewModel = application.getAppContainer().athleteViewModel
+
                 val uiState: UIState by viewModel.uiState.observeAsState(UIState.Workout())
-                val listItems: MutableList<ListItem> by viewModel.listItems.observeAsState(mutableListOf())
+                val expandableItems: MutableList<ExpandableItem> by viewModel.expandableItems.observeAsState(mutableListOf())
 
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
@@ -48,8 +57,8 @@ class MainActivity : ComponentActivity() {
                             .padding(top = 92.dp, start = 16.dp, end = 16.dp, bottom = 92.dp)
 
                     ) {
-                        listItems.forEach { item -> item.getListItem()() }
-                        listItems.forEach {item -> println(item.expanded)}
+                        expandableItems.forEach { item -> item.getListItem()() }
+                        expandableItems.forEach { item -> println(item.expanded)}
                     }
                 }
             }

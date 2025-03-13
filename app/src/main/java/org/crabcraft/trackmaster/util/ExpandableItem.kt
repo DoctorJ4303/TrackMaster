@@ -1,9 +1,9 @@
 package org.crabcraft.trackmaster.util
 
 import androidx.compose.runtime.Composable
-import org.crabcraft.trackmaster.ui.common.components.ListItem
+import org.crabcraft.trackmaster.ui.common.components.ExpandableList
 
-sealed class ListItem() {
+sealed class ExpandableItem() {
     abstract val title: String
     abstract var expanded: Boolean
     abstract val onClick: () -> Unit
@@ -12,17 +12,21 @@ sealed class ListItem() {
         override val title: String,
         override var expanded: Boolean = false,
         override val onClick: () -> Unit,
-        var workouts: List<Workout> = listOf()) : ListItem()
+        var workouts: List<Workout> = listOf()) : ExpandableItem()
 
     data class Athlete(
         override val title: String,
         override var expanded: Boolean = false,
         override val onClick: () -> Unit,
-        var athletes: List<Athlete> = listOf()) : ListItem()
+        var athletes: List<Athlete> = listOf()) : ExpandableItem()
 
     fun getListItem(): @Composable () -> Unit {
         return {
-            ListItem(name = this.title, expanded = this.expanded, onClick = onClick)
+            ExpandableList(
+                name = this.title,
+                expanded = this.expanded,
+                onClick = onClick
+            )
         }
     }
 }

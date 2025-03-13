@@ -1,7 +1,33 @@
 package org.crabcraft.trackmaster.data
 
-import net.emhs.trackmaster.db.Athlete
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import org.crabcraft.trackmaster.data.dao.AthleteDao
+import org.crabcraft.trackmaster.data.dao.WorkoutDao
+import org.crabcraft.trackmaster.model.Athlete
+import org.crabcraft.trackmaster.model.Workout
 
-class TrackMasterDatabase {
-    private val athletes = mutableListOf<Athlete>()
+@Database(entities = [Athlete::class, Workout::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun athleteDao(): AthleteDao
+    abstract fun workoutDao(): WorkoutDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getDatabase(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "app_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 }

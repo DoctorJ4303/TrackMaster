@@ -10,9 +10,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import org.crabcraft.trackmaster.model.Athlete
+import org.crabcraft.trackmaster.model.Workout
+import org.crabcraft.trackmaster.util.Item
 
 @Composable
-fun Item () {
+fun Item (athlete: Athlete) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .fillMaxWidth()
+            .height(60.dp)
+            .background(MaterialTheme.colorScheme.primary)
+    )
+}
+
+@Composable
+fun Item (workout: Workout) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
