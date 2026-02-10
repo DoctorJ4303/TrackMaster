@@ -28,12 +28,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import dropShadow
 import org.crabcraft.trackmaster.R
+import org.crabcraft.trackmaster.model.Athlete
+import org.crabcraft.trackmaster.model.Workout
 import org.crabcraft.trackmaster.ui.common.shapes.NavigationBarShape
 import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
 @Composable
-fun NavigationBar (viewModel: MainViewModel) {
+fun NavigationBar(viewModel: MainViewModel) {
 
     val shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     val uiState by viewModel.uiState.collectAsState()
@@ -73,7 +75,7 @@ fun NavigationBar (viewModel: MainViewModel) {
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
                 .clickable(onClick = {
-
+                    viewModel.addNewTrackable()
                 })
         ) {
             Image(

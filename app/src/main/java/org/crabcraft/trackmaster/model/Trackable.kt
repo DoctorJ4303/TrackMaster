@@ -12,13 +12,11 @@ abstract class Trackable {
 @Entity(tableName = "athletes")
 data class Athlete(
     @PrimaryKey(autoGenerate = true) override val uid: Int = 0,
-    @ColumnInfo(name = "name") override var name: String,
-    @ColumnInfo(name = "records") var records: String
+    @ColumnInfo(name = "name") override var name: String
 ) : Trackable()
 
 @Entity(tableName = "workouts")
 data class Workout(
     @PrimaryKey(autoGenerate = true) override val uid: Int = 0,
-    @ColumnInfo(name = "name") override var name: String,
-    @ColumnInfo(name = "segments") val segments: String
+    @ColumnInfo(name = "name") override var name: String
 ) : Trackable()

@@ -2,13 +2,12 @@ package org.crabcraft.trackmaster.data
 
 import android.content.Context
 import androidx.room.Room
-import org.crabcraft.trackmaster.data.AppDatabase
 
 object DatabaseProvider {
-    fun provideDatabase(context: Context): AppDatabase {
+    fun provideDatabase(context: Context): TrackMasterDatabase {
         return Room.databaseBuilder(
             context,
-            AppDatabase::class.java,
+            TrackMasterDatabase::class.java,
             "trackmaster-database"
         ).build()
     }

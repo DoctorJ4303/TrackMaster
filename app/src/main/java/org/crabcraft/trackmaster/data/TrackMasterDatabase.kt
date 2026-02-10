@@ -9,20 +9,20 @@ import org.crabcraft.trackmaster.data.dao.WorkoutDao
 import org.crabcraft.trackmaster.model.Athlete
 import org.crabcraft.trackmaster.model.Workout
 
-@Database(entities = [Athlete::class, Workout::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+@Database(entities = [Athlete::class, Workout::class], version = 1, exportSchema = false)
+abstract class TrackMasterDatabase : RoomDatabase() {
     abstract fun athleteDao(): AthleteDao
     abstract fun workoutDao(): WorkoutDao
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: TrackMasterDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): TrackMasterDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
+                    TrackMasterDatabase::class.java,
                     "app_database"
                 ).build()
                 INSTANCE = instance
