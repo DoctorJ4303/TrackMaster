@@ -9,16 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import org.crabcraft.trackmaster.model.Workout
 
 @Dao
-interface WorkoutDao {
-    @Insert
-    suspend fun insert(workout: Workout)
-
-    @Update
-    suspend fun update(workout: Workout)
-
-    @Delete
-    suspend fun delete(workout: Workout)
-
+interface WorkoutDao : TrackableDao<Workout> {
     @Query("SELECT * FROM workouts")
     fun getAllWorkouts(): Flow<List<Workout>>
 

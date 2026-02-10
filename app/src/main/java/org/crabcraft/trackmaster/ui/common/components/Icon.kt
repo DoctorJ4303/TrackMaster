@@ -15,7 +15,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Icon(selected: Boolean, icon: Int, onClick: () -> Unit) {
+fun Icon(selected: Boolean = true, icon: Int, onClick: () -> Unit) {
     Surface (
         modifier = if (!selected) Modifier.size(56.dp).clickable(onClick = onClick) else Modifier.size(56.dp),
         shape = RoundedCornerShape(20.dp),

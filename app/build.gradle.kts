@@ -1,11 +1,10 @@
-import com.android.build.gradle.internal.utils.KSP_PLUGIN_ID
-import org.jetbrains.kotlin.gradle.utils.IMPLEMENTATION
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt") // For kapt
-    id("com.google.devtools.ksp") // For ksp
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -15,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "org.crabcraft.trackmaster"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -38,14 +37,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -54,10 +48,20 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     // Room
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler) // Use ksp for the Room compiler
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
     // AndroidX
@@ -82,7 +86,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
 
-    //GSon
+    // GSon
     implementation(libs.gson)
 
     // Testing

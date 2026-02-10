@@ -16,6 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,11 +30,13 @@ import dropShadow
 import org.crabcraft.trackmaster.R
 import org.crabcraft.trackmaster.ui.common.shapes.NavigationBarShape
 import org.crabcraft.trackmaster.util.UIState
+import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
 @Composable
-fun NavigationBar (uiState: UIState) {
+fun NavigationBar (viewModel: MainViewModel) {
 
     val shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+    val uiState by viewModel.uiState.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxWidth().height(72.dp)
@@ -46,9 +51,17 @@ fun NavigationBar (uiState: UIState) {
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
             ) {
                 Spacer(Modifier.weight(1f))
-                uiState.workoutIcon()
+                Icon(
+                    selected = uiState is UIState.Workout,
+                    icon = R.drawable.workout,
+                    onClick = { viewModel.toggleMode(UIState.Athlete) }
+                )
                 Spacer(Modifier.weight(4f))
-                uiState.athleteIcon()
+                Icon(
+                    selected = uiState is UIState.Athlete,
+                    icon = R.drawable.athlete,
+                    onClick = { viewModel.toggleMode(UIState.Workout) }
+                )
                 Spacer(Modifier.weight(1f))
             }
         }

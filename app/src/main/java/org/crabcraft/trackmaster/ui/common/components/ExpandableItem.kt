@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,29 +20,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.crabcraft.trackmaster.R
 import org.crabcraft.trackmaster.TrackMasterApplication
-import org.crabcraft.trackmaster.data.repository.AthleteRepository
 import org.crabcraft.trackmaster.model.Athlete
 import org.crabcraft.trackmaster.model.Workout
-import org.crabcraft.trackmaster.util.Item
+import org.crabcraft.trackmaster.ui.common.theme.TrackMasterTheme
 import org.crabcraft.trackmaster.util.UIState
-import org.crabcraft.trackmaster.viewmodel.AthleteViewModel
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
-import org.crabcraft.trackmaster.viewmodel.WorkoutViewModel
-
-@Composable
-fun ExpandableList(expanded: Boolean = false, name: String, onClick: () -> Unit = {}, list: MutableList<Item> = mutableListOf()) {
-    when (expanded) {
-        true -> {
-            ExpandedList(name, onClick)
-        }
-        false -> {
-            CollapsedList(name, onClick)
-        }
-    }
-}
 
 @Composable
 private fun CollapsedList(name: String, onClick: () -> Unit) {
@@ -77,9 +62,26 @@ private fun ExpandedList(name: String, onClick: () -> Unit) {
     val application = LocalContext.current.applicationContext as TrackMasterApplication
     val athletes: List<Athlete> by application.container.athleteViewModel.allAthletes.collectAsState(initial = emptyList())
     val workouts: List<Workout> by application.container.workoutViewModel.allWorkouts.collectAsState(initial = emptyList())
-    val mainViewModel = MainViewModel()
-    val uiState: UIState by mainViewModel.uiState.observeAsState(UIState.Workout())
+    val viewModel = MainViewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
+    ExpandedListContent(
+        name = name,
+        onClick = onClick,
+        athletes = athletes,
+        workouts = workouts,
+        uiState = uiState
+    )
+}
+
+@Composable
+fun ExpandedListContent(
+    name: String,
+    onClick: () -> Unit,
+    athletes: List<Athlete>,
+    workouts: List<Workout>,
+    uiState: UIState
+) {
     Column (
         Modifier
             .clip(RoundedCornerShape(10.dp))
@@ -109,6 +111,25 @@ private fun ExpandedList(name: String, onClick: () -> Unit) {
             athletes.forEach { athlete -> Item(athlete) }
         } else {
             workouts.forEach { workout -> Item(workout) }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExpandableListExpandedPreview() {
+    TrackMasterTheme {
+        Box(Modifier.padding(16.dp)) {
+            ExpandedListContent(
+                name = "Athletes",
+                onClick = {},
+                athletes = listOf(
+                    Athlete(1, "John Doe", "100m: 10.5s"),
+                    Athlete(2, "Jane Smith", "200m: 22.1s")
+                ),
+                workouts = emptyList(),
+                uiState = UIState.Workout
+            )
         }
     }
 }

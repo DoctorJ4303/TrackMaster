@@ -12,7 +12,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.crabcraft.trackmaster.model.Athlete
 import org.crabcraft.trackmaster.model.Workout
-import org.crabcraft.trackmaster.util.Item
 
 @Composable
 fun Item (athlete: Athlete) {
