@@ -1,5 +1,6 @@
 package org.crabcraft.trackmaster.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey

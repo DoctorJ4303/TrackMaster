@@ -1,5 +1,6 @@
 package org.crabcraft.trackmaster.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import org.crabcraft.trackmaster.data.TrackMasterDatabase
+import org.crabcraft.trackmaster.model.Athlete
 import org.crabcraft.trackmaster.ui.common.components.Card
 import org.crabcraft.trackmaster.ui.common.components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.components.StatusBar
@@ -50,9 +51,13 @@ class MainActivity : ComponentActivity() {
                 val athletes by viewModel.athletes.collectAsState()
                 val workouts by viewModel.workouts.collectAsState()
 
+                val athleteMode = intent.getBooleanExtra("athleteMode", false)
+                if (athleteMode)
+                    viewModel.setUIState(UIState.Athlete)
+
                 Scaffold (
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-                    topBar = { StatusBar(uiState) },
+                    topBar = { StatusBar(viewModel) },
                     bottomBar = { NavigationBar(viewModel) }
                 ) { it
                     Column(
@@ -65,27 +70,20 @@ class MainActivity : ComponentActivity() {
                     ) {
                         when (uiState) {
                             is UIState.Workout ->
-                                workouts.forEach { workout ->
-                                    Card(
-                                        trackable = workout,
-                                        onClick = {
-                                            viewModel.removeTrackable(workout)
-                                        }
-                                    )
-                                }
+                                workouts.forEach { workout -> Card(trackable = workout, onClick = { viewModel.removeTrackable(workout) }) }
                             is UIState.Athlete ->
-                                athletes.forEach { athlete ->
-                                    Card(
-                                        trackable = athlete,
-                                        onClick = {
-                                            viewModel.removeTrackable(athlete)
-                                        }
-                                    )
-                                }
+                                athletes.forEach { athlete -> Card(trackable = athlete, onClick = { navigateToAthlete(athlete) }) }
                         }
                     }
                 }
             }
         }
+    }
+
+    fun navigateToAthlete(athlete: Athlete) {
+        val intent = Intent(this@MainActivity, AthleteActivity::class.java).apply {
+            putExtra("id", athlete.uid)
+        }
+        startActivity(intent)
     }
 }

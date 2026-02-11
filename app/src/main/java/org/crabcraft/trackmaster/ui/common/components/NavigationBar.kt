@@ -18,7 +18,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,8 +27,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import dropShadow
 import org.crabcraft.trackmaster.R
-import org.crabcraft.trackmaster.model.Athlete
-import org.crabcraft.trackmaster.model.Workout
 import org.crabcraft.trackmaster.ui.common.shapes.NavigationBarShape
 import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
@@ -53,16 +50,16 @@ fun NavigationBar(viewModel: MainViewModel) {
                 modifier = Modifier.fillMaxWidth().padding(8.dp),
             ) {
                 Spacer(Modifier.weight(1f))
-                Icon(
+                NavigationIcon(
                     selected = uiState is UIState.Workout,
                     icon = R.drawable.workout,
-                    onClick = { viewModel.toggleMode(UIState.Athlete) }
+                    onClick = { viewModel.setUIState(UIState.Workout) }
                 )
                 Spacer(Modifier.weight(4f))
-                Icon(
+                NavigationIcon(
                     selected = uiState is UIState.Athlete,
                     icon = R.drawable.athlete,
-                    onClick = { viewModel.toggleMode(UIState.Workout) }
+                    onClick = { viewModel.setUIState(UIState.Athlete) }
                 )
                 Spacer(Modifier.weight(1f))
             }
@@ -75,7 +72,7 @@ fun NavigationBar(viewModel: MainViewModel) {
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
                 .clickable(onClick = {
-                    viewModel.addNewTrackable()
+                    viewModel.createTrackable()
                 })
         ) {
             Image(
@@ -85,5 +82,23 @@ fun NavigationBar(viewModel: MainViewModel) {
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+    }
+}
+
+@Composable
+fun NavigationIcon(selected: Boolean = true, icon: Int, onClick: () -> Unit) {
+    Surface (
+        modifier = if (!selected) Modifier.size(56.dp).clickable(onClick = onClick) else Modifier.size(56.dp),
+        shape = RoundedCornerShape(20.dp),
+        color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+    ) {
+        Image(
+            imageVector = ImageVector.vectorResource(icon),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary),
+            modifier = Modifier
+                .size(36.dp)
+                .padding(6.dp)
+        )
     }
 }

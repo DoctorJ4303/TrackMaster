@@ -24,6 +24,7 @@ interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE uid = :uid")
     fun getWorkoutById(uid: Int): Flow<Workout>
 }
+
 @Dao
 interface AthleteDao {
     @Insert
@@ -38,4 +39,3 @@ interface AthleteDao {
     @Query("SELECT * FROM athletes WHERE uid = :uid")
     fun getAthleteById(uid: Int): Flow<Athlete>
 }
-
