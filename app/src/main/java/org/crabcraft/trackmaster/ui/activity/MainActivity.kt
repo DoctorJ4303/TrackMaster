@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable<AthleteScreen> { backStackEntry ->
                         val dest: AthleteScreen = backStackEntry.toRoute()
-                        AthleteScreenComposable(dest.userId)
+                        AthleteScreenComposable()
                     }
                 }
             }
