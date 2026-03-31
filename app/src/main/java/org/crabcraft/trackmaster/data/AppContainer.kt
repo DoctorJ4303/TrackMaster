@@ -1,19 +1,14 @@
 package org.crabcraft.trackmaster.data
 
 import android.content.Context
-import org.crabcraft.trackmaster.data.repository.AthleteRepository
-import org.crabcraft.trackmaster.data.repository.WorkoutRepository
+import org.crabcraft.trackmaster.data.repository.TrackMasterRepository
 
 interface AppContainer {
-    val athleteRepository: AthleteRepository
-    val workoutRepository: WorkoutRepository
+    val athleteRepository: TrackMasterRepository
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
-    override val athleteRepository: AthleteRepository by lazy {
-        AthleteRepository(TrackMasterDatabase.getDatabase(context).athleteDao())
-    }
-    override val workoutRepository: WorkoutRepository by lazy {
-        WorkoutRepository(TrackMasterDatabase.getDatabase(context).workoutDao())
+    override val athleteRepository: TrackMasterRepository by lazy {
+        TrackMasterRepository(TrackMasterDatabase.getDatabase(context))
     }
 }

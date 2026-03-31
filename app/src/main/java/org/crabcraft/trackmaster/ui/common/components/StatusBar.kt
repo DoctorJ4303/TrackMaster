@@ -89,14 +89,16 @@ fun StatusBar(trackable: Trackable, back: () -> Unit, delete: () -> Unit) {
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
                 modifier = Modifier.size(48.dp).clickable { back() }
             )
+            Spacer(Modifier.weight(1f))
             Text(
                 trackable.name,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxSize()
-                    .wrapContentSize(align = Alignment.Center),
+                modifier = Modifier.fillMaxHeight()
+                    .wrapContentHeight(align = Alignment.CenterVertically),
                 color = MaterialTheme.colorScheme.onPrimary
             )
+            Spacer(Modifier.weight(1f))
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.arrow_left),
                 contentDescription = null,

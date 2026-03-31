@@ -84,7 +84,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-
+    implementation(libs.androidx.navigation.compose)
+    
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
