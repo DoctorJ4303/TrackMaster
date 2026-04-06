@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -85,6 +86,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+
+    // JetBrains
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
     
     // Coil
     implementation(libs.coil.compose)

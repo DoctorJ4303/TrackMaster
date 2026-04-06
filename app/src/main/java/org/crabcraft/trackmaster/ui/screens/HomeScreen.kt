@@ -16,22 +16,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable
+import org.crabcraft.trackmaster.model.Trackable
+import org.crabcraft.trackmaster.model.TrackableType
 import org.crabcraft.trackmaster.ui.common.components.Card
 import org.crabcraft.trackmaster.ui.common.components.NavigationBar
 import org.crabcraft.trackmaster.ui.common.components.StatusBar
 import org.crabcraft.trackmaster.util.UIState
 import org.crabcraft.trackmaster.viewmodel.MainViewModel
 
-sealed class Routes(val route: String) {
-    object Home : Routes("home")
-    object Athlete : Routes("athlete/{userId}")
-}
-
 @Serializable
 object HomeScreen
 
 @Composable
-fun HomeScreenComposable(viewModel: MainViewModel, navController: NavHostController) {
+fun HomeScreenComposable(viewModel: MainViewModel, onNavigateToDetail: (trackable: Trackable, type: TrackableType) -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     val athletes by viewModel.athletes.collectAsState()
     val workouts by viewModel.workouts.collectAsState()
@@ -51,9 +48,9 @@ fun HomeScreenComposable(viewModel: MainViewModel, navController: NavHostControl
         ) {
             when (uiState) {
                 is UIState.Workout ->
-                    workouts.forEach { workout -> Card(trackable = workout, onClick = { navController.navigate(WorkoutScreen(workout.uid)) }) }
+                    workouts.forEach { workout -> Card(trackable = workout, onClick = { onNavigateToDetail(workout, TrackableType.WORKOUT) }) }
                 is UIState.Athlete ->
-                    athletes.forEach { athlete -> Card(trackable = athlete, onClick = { navController.navigate(AthleteScreen(athlete.uid)) }) }
+                    athletes.forEach { athlete -> Card(trackable = athlete, onClick = { onNavigateToDetail(athlete, TrackableType.ATHLETE) }) }
             }
         }
     }
